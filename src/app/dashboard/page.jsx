@@ -1,7 +1,9 @@
 const Dashboard = () => {
   return (
-    <main>
-      <h1>Dashboard</h1>
+    <main className="min-h-screen">
+      <h2 className="text-3xl font-bold text-center m-10 ">
+        Welcome to Task Manager Dashboard!
+      </h2>
     </main>
   );
 };
