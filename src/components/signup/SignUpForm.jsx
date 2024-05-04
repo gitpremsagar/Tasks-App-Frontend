@@ -7,8 +7,10 @@ import Password from "./Password";
 import ConfirmPassword from "./ConfirmPassword";
 import UserType from "./UserType";
 import Button from "../ui/Button";
+import axios from "axios";
+import { USERS_ENDPOINT } from "@/configs/constants";
 
-const SignUpForm = () => {
+const SignUpForm = ({ setIsRegistered }) => {
   const [signUpFormData, setSignUpFormData] = useState({
     email: "",
     password: "",
@@ -76,7 +78,7 @@ const SignUpForm = () => {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateSignUpFormData()) {
@@ -84,11 +86,35 @@ const SignUpForm = () => {
       return;
     }
 
-    setIsPosting(true);
-    setTimeout(() => {
-      console.log(signUpFormData);
+    try {
+      setIsPosting(true);
+      const response = await axios.post(USERS_ENDPOINT, signUpFormData);
       setIsPosting(false);
-    }, 5000);
+      console.log(response.data);
+      //show success message
+      setIsRegistered(true);
+    } catch (error) {
+      console.error(error);
+      setIsPosting(false);
+      //   check if error.response === 'User already exists' and set error message accordingly
+      if (error.response.data.error === "User already exists") {
+        setValidationErrors((prev) => ({
+          ...prev,
+          email: "User already exists",
+        }));
+        setError("User already exists");
+      }
+
+      //check if status code is 400
+      if (error.response.status === 400) {
+        alert("Please fill in all fields correctly!");
+      }
+    }
+
+    // setTimeout(() => {
+    //   console.log(signUpFormData);
+
+    // }, 5000);
   };
 
   useEffect(() => {
