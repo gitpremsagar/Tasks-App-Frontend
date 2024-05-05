@@ -7,6 +7,8 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
+import ProjectsSection from "@/components/homepage/projects/ProjectsSection";
+import TasksSection from "@/components/homepage/tasks/TasksSction";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -70,9 +72,9 @@ export default function Home() {
       {isLoadingUserDetails ? (
         <div className="text-center mt-10 font-bold text-3xl">Loading...</div>
       ) : isLoggedIn ? (
-        <div className="text-center mt-10">
-          <h1 className="text-3xl font-bold">Welcome {user.firstName}</h1>
-          <p className="mt-5">You are logged in!</p>
+        <div className="m-10">
+          <ProjectsSection />
+          <TasksSection />
         </div>
       ) : (
         <div className="text-center mt-10">
