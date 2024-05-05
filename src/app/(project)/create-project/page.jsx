@@ -79,6 +79,9 @@ export default function CreateProject() {
           projectName: "",
           projectDescription: "",
         });
+
+        // redirect to projects page after creating project
+        router.push("/");
       })
       .catch((error) => {
         console.error("Error creating project: ", error);

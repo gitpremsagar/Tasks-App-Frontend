@@ -1,6 +1,6 @@
 "use client";
 import { TASKS_ENDPOINT } from "@/configs/constants";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Section from "@/components/ui/Section";
 import { selectToken } from "@/redux/tokenSlice";
@@ -11,22 +11,8 @@ import Link from "next/link";
 import RedBorderButton from "@/components/ui/RedBorderButton";
 import { PROJECTS_ENDPOINT } from "@/configs/constants";
 import { useRouter } from "next/navigation";
-
-// tasks table detail
-// Table: tasks
-// Columns:
-// projectName varchar(255)
-// projectId int(11)
-// taskName varchar(255)
-// taskDescription varchar(255)
-// spendTime varchar(255)
-// priority varchar(255)
-// assignedTo varchar(255)
-// status varchar(255)
-// createdBy varchar(255)
-// updatedBy varchar(255)
-// createdAt datetime
-// updatedAt datetime
+import SelectElement from "@/components/ui/SelectElement";
+import SelectTeamMember from "@/components/homepage/tasks/SelectTeamMember";
 
 const CreateTask = ({ params }) => {
   const router = useRouter();
@@ -48,13 +34,6 @@ const CreateTask = ({ params }) => {
   const [error, setError] = useState(null);
   const token = useSelector(selectToken);
 
-  const taskNameRef = useRef();
-  const taskDescriptionRef = useRef();
-  const spendTimeRef = useRef();
-  const priorityRef = useRef();
-  const assignedToRef = useRef();
-  const statusRef = useRef();
-
   const handleTaskDataChange = (e) => {
     const { name, value } = e.target;
     setTaskData((prevData) => ({
@@ -62,6 +41,11 @@ const CreateTask = ({ params }) => {
       [name]: value,
     }));
   };
+
+  //   log task data
+  //   useEffect(() => {
+  //     console.log("taskData", taskData);
+  //   }, [taskData]);
 
   //get project details from api
   useEffect(() => {
@@ -75,7 +59,7 @@ const CreateTask = ({ params }) => {
         },
       })
       .then((response) => {
-        console.log("Project details: ", response.data);
+        // console.log("Project details: ", response.data);
         setIsLoadingProjectData(false);
         setProjectData(response.data);
       })
@@ -151,7 +135,6 @@ const CreateTask = ({ params }) => {
           label="Task Name"
           value={taskData.taskName}
           onChange={handleTaskDataChange}
-          inputRef={taskNameRef}
         />
         <InputField
           type="text"
@@ -159,7 +142,6 @@ const CreateTask = ({ params }) => {
           label="Task Description"
           value={taskData.taskDescription}
           onChange={handleTaskDataChange}
-          inputRef={taskDescriptionRef}
         />
         <InputField
           type="number"
@@ -167,43 +149,69 @@ const CreateTask = ({ params }) => {
           label="Spend Time in number of days"
           value={taskData.spendTime}
           onChange={handleTaskDataChange}
-          inputRef={spendTimeRef}
-        />
-        {/* TODO: Change to select */}
-        <InputField
-          type="text"
-          name="priority"
-          label="Priority"
-          value={taskData.priority}
-          onChange={handleTaskDataChange}
-          inputRef={priorityRef}
-        />
-        {/* TODO: fetch user name and show in dropdown */}
-        <InputField
-          type="text"
-          name="assignedTo"
-          label="Assigne To"
-          value={taskData.assignedTo}
-          onChange={handleTaskDataChange}
-          inputRef={assignedToRef}
-        />
-        {/* TODO: Change to select */}
-        <InputField
-          type="text"
-          name="status"
-          label="Status"
-          value={taskData.status}
-          onChange={handleTaskDataChange}
-          inputRef={statusRef}
         />
 
+        {/* Select Priority */}
+        <SelectElement
+          label="Priority"
+          options={[
+            {
+              value: "",
+              label: "- Select -",
+            },
+            {
+              value: "Low",
+              label: "Low",
+            },
+            {
+              value: "Medium",
+              label: "Medium",
+            },
+            {
+              value: "High",
+              label: "High",
+            },
+          ]}
+          onChange={handleTaskDataChange}
+          name={"priority"}
+        />
+
+        {/* Select Team Member */}
+        <SelectTeamMember onChange={handleTaskDataChange} name={"assignedTo"} />
+
+        {/* Select Status */}
+        <SelectElement
+          label="Status"
+          options={[
+            {
+              value: "",
+              label: "- Select -",
+            },
+            {
+              value: "Pending",
+              label: "Pending",
+            },
+            {
+              value: "In Progress",
+              label: "In Progress",
+            },
+            {
+              value: "Completed",
+              label: "Completed",
+            },
+          ]}
+          onChange={handleTaskDataChange}
+          name={"status"}
+        />
+
+        <br />
         <Button type="submit" disabled={isLoading}>
           Create Task
         </Button>
       </form>
       <br />
       <Link href={`/tasks-by-project/${params.projectId}`}>
-        <RedBorderButton>Go back Tasks List</RedBorderButton>
+        <RedBorderButton>Go back to Tasks List</RedBorderButton>
       </Link>
     </Section>
   );

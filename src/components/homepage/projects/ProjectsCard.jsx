@@ -8,6 +8,7 @@ import { selectToken } from "@/redux/tokenSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/userSlice";
 import Link from "next/link";
+import GreenBorderButton from "@/components/ui/GreenBorderButton";
 
 // projectId int(11) AI PK
 // projectName varchar(255)
@@ -49,7 +50,8 @@ export default function ProjectsCard({ project, setProjects }) {
   const { projectId, projectName, projectDescription, createdAt, updatedAt } =
     project;
   return (
-    <div className="border border-gray-300 p-5 rounded-lg shadow-lg my-10">
+    <div className="border border-green-500 p-5 rounded-lg shadow-lg my-10">
+      <h2 className="text-orange-600 mb-2 uppercase cursor-auto">Project</h2>
       <h3 className="text-xl font-bold">{projectName}</h3>
       <p>{projectDescription}</p>
       <div className="mt-5">
@@ -59,7 +61,7 @@ export default function ProjectsCard({ project, setProjects }) {
 
         <div className=" flex justify-between items-center my-2">
           <Link href={`/tasks-by-project/${projectId}`}>
-            <BlueBorderButton>View Tasks</BlueBorderButton>
+            <GreenBorderButton>View Tasks</GreenBorderButton>
           </Link>
 
           <RedBorderButton
