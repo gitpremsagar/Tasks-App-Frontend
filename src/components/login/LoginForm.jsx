@@ -40,7 +40,7 @@ const LoginForm = () => {
         password,
       });
 
-      console.log("Login response:", response.data);
+      // console.log("Login response:", response.data);
 
       // Save token to cookies
       Cookies.set("token", response.data.token, { expires: 1 }); //cookie will be deleted after 1 day

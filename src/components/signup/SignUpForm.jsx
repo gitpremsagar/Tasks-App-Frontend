@@ -110,16 +110,7 @@ const SignUpForm = ({ setIsRegistered }) => {
         alert("Please fill in all fields correctly!");
       }
     }
-
-    // setTimeout(() => {
-    //   console.log(signUpFormData);
-
-    // }, 5000);
   };
-
-  useEffect(() => {
-    console.log(signUpFormData);
-  }, [signUpFormData]);
 
   const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState("");

@@ -8,7 +8,6 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import ProjectsSection from "@/components/homepage/projects/ProjectsSection";
-import TasksSection from "@/components/homepage/tasks/TasksSction";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -74,7 +73,6 @@ export default function Home() {
       ) : isLoggedIn ? (
         <div className="m-10">
           <ProjectsSection />
-          <TasksSection />
         </div>
       ) : (
         <div className="text-center mt-10">

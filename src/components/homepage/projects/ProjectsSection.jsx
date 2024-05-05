@@ -54,12 +54,19 @@ export default function ProjectsSection() {
         <p>Loading projects...</p>
       ) : (
         <>
-          
-            <Button className="mx-auto" onClick={handleCreateNewProjectClick}>
-              Create New Project
-            </Button>
-          
+          <Button className="mx-auto" onClick={handleCreateNewProjectClick}>
+            Create New Project
+          </Button>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {projects.length === 0 && (
+              <Section className={`col-span-3`}>
+                <p className="text-center">
+                  No projects found. Create a new project to get started!
+                </p>
+              </Section>
+            )}
+
             {projects.map((project) => (
               <ProjectsCard
                 key={project.projectId}

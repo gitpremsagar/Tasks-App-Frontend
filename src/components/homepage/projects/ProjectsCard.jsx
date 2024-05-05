@@ -7,6 +7,7 @@ import { PROJECTS_ENDPOINT } from "@/configs/constants";
 import { selectToken } from "@/redux/tokenSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/userSlice";
+import Link from "next/link";
 
 // projectId int(11) AI PK
 // projectName varchar(255)
@@ -57,9 +58,9 @@ export default function ProjectsCard({ project, setProjects }) {
         <p>Project ID: {projectId}</p>
 
         <div className=" flex justify-between items-center my-2">
-          <BlueBorderButton onClick={handleViewTasks}>
-            View Tasks
-          </BlueBorderButton>
+          <Link href={`/tasks-by-project/${projectId}`}>
+            <BlueBorderButton>View Tasks</BlueBorderButton>
+          </Link>
 
           <RedBorderButton
             onClick={() => handleDeleteProject(projectId)}
