@@ -1,31 +1,90 @@
 "use client";
 import { useSelector, useDispatch } from "react-redux";
 import { selectToken, setToken } from "@/redux/tokenSlice";
-
+import { verifyAndDecodeToken } from "@/services/authService";
+import { setUser, selectUser } from "@/redux/userSlice";
+import Link from "next/link";
 import Cookies from "js-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Button from "@/components/ui/Button";
 
 export default function Home() {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
 
+  const [isLoadingUserDetails, setIsLoadingUserDetails] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const user = useSelector(selectUser);
+
+  //  if user is logged in, set isLoggedIn to true
+  useEffect(() => {
+    if (user.userId) {
+      setIsLoggedIn(true);
+    }
+  }, [user]);
+  // fetch token from cookie and set it in redux store
   useEffect(() => {
     const tokenFromCookie = Cookies.get("token");
     if (tokenFromCookie) {
       // console.log("token from cookie = ", tokenFromCookie);
       dispatch(setToken(tokenFromCookie));
+    } else {
+      // dispatch(setToken(null));
+      setIsLoadingUserDetails(false);
     }
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   console.log("token from Redux store = ", token);
-  // }, [token]);
+  // verify token and set user details in state
+  useEffect(() => {
+    if (token) {
+      setIsLoadingUserDetails(true);
+      verifyAndDecodeToken(token).then((decodeToken) => {
+        if (decodeToken === "unauthorized") {
+          alert("Unauthorized access!");
+          dispatch(setToken(null));
+          Cookies.remove("token");
+        }
+
+        if (decodeToken === "error") {
+          alert("An error occurred!");
+        }
+
+        setIsLoadingUserDetails(false);
+
+        // set user details in redux store
+        dispatch(
+          setUser({
+            userId: decodeToken.userId,
+            email: decodeToken.email,
+            firstName: decodeToken.firstName,
+            lastName: decodeToken.lastName,
+            userType: decodeToken.userType,
+          })
+        );
+      });
+    }
+  }, [token]);
 
   return (
     <main className="min-h-screen">
-      <h2 className="text-3xl font-bold text-center m-10 ">
-        Welcome to Task Manager!
-      </h2>
+      {isLoadingUserDetails ? (
+        <div className="text-center mt-10 font-bold text-3xl">Loading...</div>
+      ) : isLoggedIn ? (
+        <div className="text-center mt-10">
+          <h1 className="text-3xl font-bold">Welcome {user.firstName}</h1>
+          <p className="mt-5">You are logged in!</p>
+        </div>
+      ) : (
+        <div className="text-center mt-10">
+          <h1 className="text-3xl font-bold">Welcome to Task Manager</h1>
+          <p className="mt-5">Please login to continue</p>
+          <Link href={"/login"}>
+            <div className="m-10">
+              <Button>Login</Button>
+            </div>
+          </Link>
+        </div>
+      )}
     </main>
   );
 }

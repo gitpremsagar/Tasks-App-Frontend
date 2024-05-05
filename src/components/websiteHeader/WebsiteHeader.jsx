@@ -1,8 +1,22 @@
+"use client";
 import React from "react";
 import NavLink from "./NavLink";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/userSlice";
+import { useState, useEffect } from "react";
 
 const WebsiteHeader = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const user = useSelector(selectUser);
+
+  //  if user is logged in, set isLoggedIn to true
+  useEffect(() => {
+    if (user.userId) {
+      setIsLoggedIn(true);
+    }
+  }, [user]);
+
   return (
     <header>
       <nav className="bg-gray-800">
@@ -15,9 +29,24 @@ const WebsiteHeader = () => {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <NavLink href="/login">Login</NavLink>
-                <NavLink href="/signup">Sign Up</NavLink>
-                <NavLink href="/dashboard">Dashboard</NavLink>
+                {isLoggedIn ? (
+                  <>
+                    <span className="text-gray-300  py-2 rounded-md text-sm font-medium cursor-default">{`Welcome ${user.firstName}`}</span>
+                    <NavLink href="/logout" className="text-white">
+                      Logout
+                    </NavLink>
+                  </>
+                ) : (
+                  <NavLink href="/login" className="text-white">
+                    Login
+                  </NavLink>
+                )}
+                {isLoggedIn ? null : (
+                  <NavLink href="/signup" className="text-white">
+                    Sign Up
+                  </NavLink>
+                )}
+                {/* <NavLink href="/dashboard">Dashboard</NavLink> */}
               </div>
             </div>
           </div>

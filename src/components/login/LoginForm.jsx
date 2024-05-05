@@ -49,7 +49,7 @@ const LoginForm = () => {
       dispatch(setToken(response.data.token));
 
       // redirect to dashboard
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       console.error("Login error:", error);
       if (error.response.status === 401) {
