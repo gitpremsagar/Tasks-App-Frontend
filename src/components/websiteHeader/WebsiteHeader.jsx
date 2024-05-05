@@ -3,12 +3,63 @@ import React from "react";
 import NavLink from "./NavLink";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { selectUser } from "@/redux/userSlice";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import { selectToken, setToken } from "@/redux/tokenSlice";
+import { verifyAndDecodeToken } from "@/services/authService";
+import { setUser, selectUser } from "@/redux/userSlice";
+import { useDispatch } from "react-redux";
 
 const WebsiteHeader = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const token = useSelector(selectToken);
+
+  //  if user is logged in, set isLoggedIn to true
+  useEffect(() => {
+    if (user.userId) {
+      setIsLoggedIn(true);
+    }
+  }, [user]);
+
+  // fetch token from cookie and set it in redux store
+  useEffect(() => {
+    const tokenFromCookie = Cookies.get("token");
+    if (tokenFromCookie) {
+      // console.log("token from cookie = ", tokenFromCookie);
+      dispatch(setToken(tokenFromCookie));
+    }
+  }, [dispatch]);
+
+  // verify token and set user details in state
+  useEffect(() => {
+    if (token) {
+      verifyAndDecodeToken(token).then((decodeToken) => {
+        if (decodeToken === "unauthorized") {
+          alert("Unauthorized access!");
+          dispatch(setToken(null));
+          Cookies.remove("token");
+        }
+
+        if (decodeToken === "error") {
+          alert("An error occurred!");
+        }
+
+        // set user details in redux store
+        dispatch(
+          setUser({
+            userId: decodeToken.userId,
+            email: decodeToken.email,
+            firstName: decodeToken.firstName,
+            lastName: decodeToken.lastName,
+            userType: decodeToken.userType,
+          })
+        );
+      });
+    }
+  }, [token]);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //  if user is logged in, set isLoggedIn to true
   useEffect(() => {

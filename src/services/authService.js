@@ -2,7 +2,7 @@ import { VERIFY_TOKEN_ENDPOINT } from "@/configs/constants";
 import axios from "axios";
 
 export const verifyAndDecodeToken = async (token) => {
-  console.log("token passed to verifyAndDecodeToken = ", token);
+  // console.log("token passed to verifyAndDecodeToken = ", token);
   try {
     // set headers and make request
     const headers = {
