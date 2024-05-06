@@ -44,9 +44,9 @@ const EditTask = ({ params }) => {
   };
 
   // log task data
-  useEffect(() => {
-    console.log("taskData from useEffect = ", taskData);
-  }, [taskData]);
+  // useEffect(() => {
+  //   console.log("taskData from useEffect = ", taskData);
+  // }, [taskData]);
 
   // get task details from api
   useEffect(() => {
@@ -120,7 +120,7 @@ const EditTask = ({ params }) => {
         },
       })
       .then((response) => {
-        console.log("Task updated successfully", response.data);
+        // console.log("Task updated successfully", response.data);
         setCreatedSuccessfully(true);
         setIsLoading(false);
         router.push(`/tasks-by-project/${params.projectId}`);

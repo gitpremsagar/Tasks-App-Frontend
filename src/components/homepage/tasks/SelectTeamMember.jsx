@@ -6,7 +6,7 @@ import { selectToken, setToken } from "@/redux/tokenSlice";
 import { useState, useEffect } from "react";
 import SelectElement from "@/components/ui/SelectElement";
 
-const SelectTeamMember = ({ name, onChange }) => {
+const SelectTeamMember = ({ name, onChange, value }) => {
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
   const [teamMembers, setTeamMembers] = useState([]);
@@ -55,6 +55,7 @@ const SelectTeamMember = ({ name, onChange }) => {
           }))}
           onChange={onChange}
           name={name}
+          value={value}
         />
       )}
     </div>
