@@ -31,6 +31,13 @@ export default function ProjectsCard({ project, setProjects }) {
       return;
     }
 
+    const confirmDelete = confirm(
+      "Are you sure you want to delete this project?"
+    );
+    if (!confirmDelete) {
+      return;
+    }
+
     // delete project
     axios
       .delete(`${PROJECTS_ENDPOINT}/${projectId}`, {
@@ -49,29 +56,47 @@ export default function ProjectsCard({ project, setProjects }) {
   }
   const { projectId, projectName, projectDescription, createdAt, updatedAt } =
     project;
+
+  // format date
+  let date = new Date(createdAt);
+  const formatedCreatedAt = date.toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+  date = new Date(updatedAt);
+  const formatedUpdatedAt = date.toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
-    <div className="border border-green-500 p-5 rounded-lg shadow-lg my-10">
-      <h2 className="text-orange-600 mb-2 uppercase cursor-auto">Project</h2>
-      <h3 className="text-xl font-bold">{projectName}</h3>
-      <p>{projectDescription}</p>
-      <div className="mt-5">
-        <p>Created: {createdAt}</p>
-        <p>Updated: {updatedAt}</p>
+    <article className="border border-green-500 p-5 rounded-lg shadow-lg my-10 flex flex-col justify-evenly">
+      <header>
+        <h2 className="text-orange-600 mb-2 uppercase cursor-auto">Project</h2>
+        <h3 className="text-xl font-bold">{projectName}</h3>
+        <p>{projectDescription}</p>
+      </header>
+      <main className="mt-5">
+        <p>Created: {formatedCreatedAt}</p>
+        <p>Updated: {formatedUpdatedAt}</p>
         <p>Project ID: {projectId}</p>
+      </main>
+      <footer className=" flex justify-between items-center my-2">
+        <Link href={`/tasks-by-project/${projectId}`}>
+          <GreenBorderButton>View Tasks</GreenBorderButton>
+        </Link>
 
-        <div className=" flex justify-between items-center my-2">
-          <Link href={`/tasks-by-project/${projectId}`}>
-            <GreenBorderButton>View Tasks</GreenBorderButton>
-          </Link>
-
-          <RedBorderButton
-            onClick={() => handleDeleteProject(projectId)}
-            className="text-red-600"
-          >
-            <FaTrash />
-          </RedBorderButton>
-        </div>
-      </div>
-    </div>
+        <RedBorderButton
+          onClick={() => handleDeleteProject(projectId)}
+          className="text-red-600"
+        >
+          <FaTrash />
+        </RedBorderButton>
+      </footer>
+    </article>
   );
 }

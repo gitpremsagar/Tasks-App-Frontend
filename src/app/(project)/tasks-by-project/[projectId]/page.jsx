@@ -86,16 +86,14 @@ export default function TasksByProjectId({ params }) {
         <p>Loading Project Details...</p>
       ) : (
         <>
-          <h3 className="text-xl font-semibold mb-5">
-            <span className="font-bold text-blue-500"> Project Name: </span>
-            {projectData.projectName}
-          </h3>
-          <h4 className="text-xl font-semibold mb-5">
-            <span className="font-bold text-blue-500">
-              Project Description:{" "}
-            </span>
-            {projectData.projectDescription}
-          </h4>
+          <div className="mb-5">
+            <h3 className="font-semibold mb-2">Project Name:</h3>
+            <p>{projectData.projectName}</p>
+          </div>
+          <div className="mb-5">
+            <h3 className="font-semibold mb-2">Project Description:</h3>
+            <p>{projectData.projectDescription}</p>
+          </div>
         </>
       )}
 
@@ -104,7 +102,9 @@ export default function TasksByProjectId({ params }) {
       ) : (
         <>
           <Link href={`/`}>
-            <RedBorderButton className="mb-5">Back to Projects</RedBorderButton>
+            <RedBorderButton className="mb-5">
+              Go Back to Projects
+            </RedBorderButton>
           </Link>
           <br />
           <Link href={`/create-task/${params.projectId}`}>
@@ -125,7 +125,12 @@ export default function TasksByProjectId({ params }) {
               </div>
             )}
             {tasks.map((task) => (
-              <TasksCard key={task.taskId} task={task} setTasks={setTasks} />
+              <TasksCard
+                key={task.taskId}
+                task={task}
+                setTasks={setTasks}
+                projectId={params.projectId}
+              />
             ))}
           </div>
         </>
