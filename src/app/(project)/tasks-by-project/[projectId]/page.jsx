@@ -11,12 +11,22 @@ import Link from "next/link";
 import RedBorderButton from "@/components/ui/RedBorderButton";
 import TasksCard from "@/components/homepage/tasks/TasksCard";
 import { PROJECTS_ENDPOINT } from "@/configs/constants";
+import Cookies from "js-cookie";
 
 export default function TasksByProjectId({ params }) {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
   const router = useRouter();
+
+  // if no token in cookie, redirect to login page
+  useEffect(() => {
+    // get token from cookie
+    const tokenFromCookie = Cookies.get("token");
+    if (!tokenFromCookie) {
+      router.push("/login");
+    }
+  }, []);
 
   const [projectData, setProjectData] = useState([]);
   const [isLoadingProjectData, setIsLoadingProjectData] = useState(true);

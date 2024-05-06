@@ -10,6 +10,7 @@ import InputField from "@/components/ui/InputField";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import RedBorderButton from "@/components/ui/RedBorderButton";
+import Cookies from "js-cookie";
 
 //table structure
 // projectName varchar(255)
@@ -19,6 +20,16 @@ import RedBorderButton from "@/components/ui/RedBorderButton";
 
 export default function CreateProject() {
   const router = useRouter();
+
+  // if no token in cookie, redirect to login page
+  useEffect(() => {
+    // get token from cookie
+    const tokenFromCookie = Cookies.get("token");
+    if (!tokenFromCookie) {
+      router.push("/login");
+    }
+  }, []);
+
   const [projectData, setProjectData] = useState({
     projectName: "",
     projectDescription: "",

@@ -13,9 +13,20 @@ import { PROJECTS_ENDPOINT } from "@/configs/constants";
 import { useRouter } from "next/navigation";
 import SelectElement from "@/components/ui/SelectElement";
 import SelectTeamMember from "@/components/homepage/tasks/SelectTeamMember";
+import Cookies from "js-cookie";
 
 const CreateTask = ({ params }) => {
   const router = useRouter();
+
+  // if no token in cookie, redirect to login page
+  useEffect(() => {
+    // get token from cookie
+    const tokenFromCookie = Cookies.get("token");
+    if (!tokenFromCookie) {
+      router.push("/login");
+    }
+  }, []);
+
   const [projectData, setProjectData] = useState([]);
   const [isLoadingProjectData, setIsLoadingProjectData] = useState(true);
 
