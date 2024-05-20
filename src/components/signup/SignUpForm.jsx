@@ -123,26 +123,32 @@ const SignUpForm = ({ setIsRegistered }) => {
       <Email
         setSignUpFormData={setSignUpFormData}
         validationErrors={validationErrors}
+        signUpFormData={signUpFormData}
       />
       <FirstName
         setSignUpFormData={setSignUpFormData}
         validationErrors={validationErrors}
+        signUpFormData={signUpFormData}
       />
       <LastName
         setSignUpFormData={setSignUpFormData}
         validationErrors={validationErrors}
+        signUpFormData={signUpFormData}
       />
       <Password
         setSignUpFormData={setSignUpFormData}
         validationErrors={validationErrors}
+        signUpFormData={signUpFormData}
       />
       <ConfirmPassword
         setSignUpFormData={setSignUpFormData}
         validationErrors={validationErrors}
+        signUpFormData={signUpFormData}
       />
       <UserType
         setSignUpFormData={setSignUpFormData}
         validationErrors={validationErrors}
+        signUpFormData={signUpFormData}
       />
       <br />
       <Button type="submit" disabled={isPosting}>

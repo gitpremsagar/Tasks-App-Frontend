@@ -2,7 +2,11 @@ import React from "react";
 import InputField from "../ui/InputField";
 import ValidationErrorMsg from "./ValidationErrorMsg";
 
-export default function LastName({ setSignUpFormData, validationErrors }) {
+export default function LastName({
+  signUpFormData,
+  setSignUpFormData,
+  validationErrors,
+}) {
   const handleLastNameChange = (e) => {
     setSignUpFormData((prev) => ({
       ...prev,
@@ -19,6 +23,7 @@ export default function LastName({ setSignUpFormData, validationErrors }) {
         label="Last Name"
         placeholder="Enter your Last Name"
         onChange={handleLastNameChange}
+        value={signUpFormData.lastName}
       />
     </div>
   );

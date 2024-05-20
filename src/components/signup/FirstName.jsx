@@ -2,7 +2,11 @@ import React from "react";
 import InputField from "../ui/InputField";
 import ValidationErrorMsg from "./ValidationErrorMsg";
 
-export default function FirstName({ setSignUpFormData, validationErrors }) {
+export default function FirstName({
+  signUpFormData,
+  setSignUpFormData,
+  validationErrors,
+}) {
   const handleFirstNameChange = (e) => {
     setSignUpFormData((prev) => ({
       ...prev,
@@ -19,6 +23,7 @@ export default function FirstName({ setSignUpFormData, validationErrors }) {
         label="First Name"
         placeholder="Enter your first name"
         onChange={handleFirstNameChange}
+        value={signUpFormData.firstName}
       />
     </div>
   );

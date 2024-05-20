@@ -3,6 +3,7 @@ import InputField from "../ui/InputField";
 import ValidationErrorMsg from "./ValidationErrorMsg";
 
 export default function ConfirmPassword({
+  signUpFormData,
   setSignUpFormData,
   validationErrors,
 }) {
@@ -23,6 +24,7 @@ export default function ConfirmPassword({
         placeholder="Re-enter password"
         onChange={handleConfirmPasswordChange}
         type={"password"}
+        value={signUpFormData.confirmPassword}
       />
     </div>
   );

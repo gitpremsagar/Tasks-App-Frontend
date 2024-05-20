@@ -2,8 +2,13 @@ import React from "react";
 import InputField from "../ui/InputField";
 import ValidationErrorMsg from "./ValidationErrorMsg";
 
-export default function Email({ setSignUpFormData, validationErrors }) {
+export default function Email({
+  signUpFormData,
+  setSignUpFormData,
+  validationErrors,
+}) {
   const handleEmailChange = (e) => {
+    console.log("Email changed");
     setSignUpFormData((prev) => ({
       ...prev,
       email: e.target.value,
@@ -19,6 +24,7 @@ export default function Email({ setSignUpFormData, validationErrors }) {
         label="Email"
         placeholder="Enter your email"
         onChange={handleEmailChange}
+        value={signUpFormData.email}
       />
     </div>
   );

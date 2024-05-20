@@ -2,7 +2,11 @@ import React from "react";
 import InputField from "../ui/InputField";
 import ValidationErrorMsg from "./ValidationErrorMsg";
 
-export default function Password({ setSignUpFormData, validationErrors }) {
+export default function Password({
+  signUpFormData,
+  setSignUpFormData,
+  validationErrors,
+}) {
   const handlePasswordChange = (e) => {
     setSignUpFormData((prev) => ({
       ...prev,
@@ -20,6 +24,7 @@ export default function Password({ setSignUpFormData, validationErrors }) {
         placeholder="Enter new password"
         onChange={handlePasswordChange}
         type={"password"}
+        value={signUpFormData.password}
       />
     </div>
   );

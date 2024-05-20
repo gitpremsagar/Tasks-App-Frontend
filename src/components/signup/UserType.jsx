@@ -1,7 +1,11 @@
 import React from "react";
 import ValidationErrorMsg from "./ValidationErrorMsg";
 
-export default function UserType({ setSignUpFormData, validationErrors }) {
+export default function UserType({
+  signUpFormData,
+  setSignUpFormData,
+  validationErrors,
+}) {
   const handleUserTypeChange = (e) => {
     setSignUpFormData((prev) => ({
       ...prev,
@@ -26,6 +30,7 @@ export default function UserType({ setSignUpFormData, validationErrors }) {
         id="userType"
         onChange={handleUserTypeChange}
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        value={signUpFormData.userType}
       >
         <option value=""> - Select - </option>
         <option value="admin">Admin</option>
